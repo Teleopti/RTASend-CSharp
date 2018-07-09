@@ -33,7 +33,7 @@ namespace SendRTA
             //Service reference to 		 	//http://localhost/TeleoptiWFM/RTA/TeleoptiRtaService.svc
             var rta = new RTA.TeleoptiRtaServiceClient();
             var batchId = DateTime.UtcNow;
-            var externalUserStateBatch = new RTA.ExternalUserState[3];
+            var externalUserStateBatch = new RTA.ExternalUserState[5];
 
             //Create one ExternalUserState and add a few agents to it
             externalUserStateBatch[0] = new RTA.ExternalUserState()
@@ -42,10 +42,10 @@ namespace SendRTA
                 IsLoggedOn = true,
                 IsSnapshot = false,
                 SecondsInState = 60,
-                StateCode = "5",
-                StateDescription = "Talking",
+                StateCode = "ADMIN",
+                StateDescription = "Doing Admin stuff",
                 Timestamp = DateTime.UtcNow,
-                UserCode = "0063"
+                UserCode = "2001"
             };
 
             externalUserStateBatch[1] = new RTA.ExternalUserState()
@@ -54,10 +54,10 @@ namespace SendRTA
                 IsLoggedOn = true,
                 IsSnapshot = false,
                 SecondsInState = 60,
-                StateCode = "2",
-                StateDescription = "Not Ready",
+                StateCode = "EMAIL",
+                StateDescription = "Working the email queue",
                 Timestamp = DateTime.UtcNow,
-                UserCode = "0019"
+                UserCode = "2002"
             };
 
             externalUserStateBatch[2] = new RTA.ExternalUserState()
@@ -66,11 +66,36 @@ namespace SendRTA
                 IsLoggedOn = true,
                 IsSnapshot = false,
                 SecondsInState = 60,
-                StateCode = "5",
-                StateDescription = "Talking",
+                StateCode = "IDLE",
+                StateDescription = "Ready to take calls",
+                Timestamp = DateTime.UtcNow,
+                UserCode = "0063"
+            };
+
+            externalUserStateBatch[3] = new RTA.ExternalUserState()
+            {
+                BatchId = batchId,
+                IsLoggedOn = true,
+                IsSnapshot = false,
+                SecondsInState = 60,
+                StateCode = "InCall",
+                StateDescription = "Currenty on a call",
                 Timestamp = DateTime.UtcNow,
                 UserCode = "2000"
             };
+
+            externalUserStateBatch[4] = new RTA.ExternalUserState()
+            {
+                BatchId = batchId,
+                IsLoggedOn = true,
+                IsSnapshot = false,
+                SecondsInState = 60,
+                StateCode = "WEB",
+                StateDescription = "Working the web chat",
+                Timestamp = DateTime.UtcNow,
+                UserCode = "0019"
+            };
+
             //Save the batch the the Teleopti RTA service
             returnCode = rta.SaveBatchExternalUserState(
                 _RTAKey,
@@ -84,9 +109,9 @@ namespace SendRTA
             var rta = new RTA.TeleoptiRtaServiceClient();
             returnCode = rta.SaveExternalUserState(
                 _RTAKey,            //authenticationKey
-                 "2000",            //userCode, e.i the ACD Login ID          
-                 "411",             //stateCode, the RTA state using the identifier for the state
-                 "Ready2",          //stateDescription, the RTA state using the friendly name/description
+                 "0238",            //userCode, e.i the ACD Login ID          
+                 "WEB",             //stateCode, the RTA state using the identifier for the state
+                 "Working the web chat",          //stateDescription, the RTA state using the friendly name/description
                  true,              //isLoggedOn
                  0,                 //secondsInState, not used
                  DateTime.UtcNow,   //timestamp
@@ -112,10 +137,10 @@ namespace SendRTA
                 IsLoggedOn = true,
                 IsSnapshot = true,
                 SecondsInState = 60,
-                StateCode = "4",
-                StateDescription = "ACW",
+                StateCode = "WEB",
+                StateDescription = "Working the web chat",
                 Timestamp = DateTime.UtcNow,
-                UserCode = "0063"
+                UserCode = "0085"
             };
             //Create a second ExternalUserState and add it to the array
             externalUserStateBatchSnapShot[1] = new RTA.ExternalUserState()
@@ -124,10 +149,10 @@ namespace SendRTA
                 IsLoggedOn = true,
                 IsSnapshot = true,
                 SecondsInState = 60,
-                StateCode = "5",
+                StateCode = "InCall",
                 StateDescription = "Talking",
                 Timestamp = DateTime.UtcNow,
-                UserCode = "0019"
+                UserCode = "2003"
             };
 
             //Save the batch
