@@ -178,7 +178,7 @@ namespace SendRTA
             );
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void feedRTA_SendEmptySnapShot(object sender, EventArgs e)
         {
             var rta = new RTA.TeleoptiRtaServiceClient();
             var snapshotBatchId = DateTime.UtcNow;
@@ -222,23 +222,26 @@ namespace SendRTA
             );
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void feedRTA_SendOneAgentCustomStateCode(object sender, EventArgs e)
         {
-            string _acdLogonId = AcdLogonId.GetItemText(AcdLogonId.SelectedItem);
+            string _agentAcd  = AcdLogonId.GetItemText(AcdLogonId.SelectedItem);
+            string[] agent  = _agentAcd.Split('\t');
+            string _acdLogonId = agent[0];
+            string _stateCode   = StateCode.GetItemText(StateCode.SelectedItem);
 
             var rta = new RTA.TeleoptiRtaServiceClient();
             returnCode = rta.SaveExternalUserState(
-                _RTAKey,            //authenticationKey
-                 _acdLogonId,            //userCode, e.i the ACD Login ID          
-                 "WEB",             //stateCode, the RTA state using the identifier for the state
-                 "Working the web chat",          //stateDescription, the RTA state using the friendly name/description
-                 true,              //isLoggedOn
-                 0,                 //secondsInState, not used
-                 DateTime.UtcNow,   //timestamp
-                 _platformTypeId,   //platformTypeId
-                 _sourceId,         //sourceId
-                 DateTime.UtcNow,   //batchId
-                 false              //isSnapshot
+                    _RTAKey,            //authenticationKey
+                    _acdLogonId,       //userCode, e.i the ACD Login ID          
+                    _stateCode,             //stateCode, the RTA state using the identifier for the state
+                    "is not used for know states",          //stateDescription, the RTA state using the friendly name/description
+                    true,              //isLoggedOn
+                    0,                 //secondsInState, not used
+                    DateTime.UtcNow,   //timestamp
+                    _platformTypeId,   //platformTypeId
+                    _sourceId,         //sourceId
+                    DateTime.UtcNow,   //batchId
+                    false              //isSnapshot
                  );
         }
     }

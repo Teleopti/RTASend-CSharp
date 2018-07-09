@@ -33,8 +33,9 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
+            this.StateCode = new System.Windows.Forms.ListBox();
             this.AcdLogonId = new System.Windows.Forms.ListBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,47 +77,66 @@
             this.button4.TabIndex = 3;
             this.button4.Text = "SendEmptySnapShot";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.feedRTA_SendEmptySnapShot);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.StateCode);
             this.groupBox1.Controls.Add(this.AcdLogonId);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Location = new System.Drawing.Point(237, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(218, 137);
+            this.groupBox1.Size = new System.Drawing.Size(218, 178);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SetAgentToWeb";
             // 
-            // button5
+            // StateCode
             // 
-            this.button5.Location = new System.Drawing.Point(17, 73);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(134, 22);
-            this.button5.TabIndex = 0;
-            this.button5.Text = "Send stateCode Web";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.StateCode.FormattingEnabled = true;
+            this.StateCode.Items.AddRange(new object[] {
+            "ACW",
+            "ADMIN",
+            "EMAIL",
+            "IDLE",
+            "InCall",
+            "LOGGED ON",
+            "Ready",
+            "WEB",
+            "OFF"});
+            this.StateCode.Location = new System.Drawing.Point(17, 80);
+            this.StateCode.Name = "StateCode";
+            this.StateCode.Size = new System.Drawing.Size(134, 43);
+            this.StateCode.TabIndex = 2;
             // 
             // AcdLogonId
             // 
             this.AcdLogonId.FormattingEnabled = true;
             this.AcdLogonId.Items.AddRange(new object[] {
-            "0019",
-            "0063",
-            "0068",
-            "0085",
-            "0202",
-            "0238",
-            "2000",
-            "2001",
-            "2002",
-            "2003"});
+            "0019\tJohn Smith",
+            "0063\tPierre Baldi",
+            "0068\tPrashant Arora",
+            "0085\tAshley Andeen",
+            "0202\tJuancho Banaag",
+            "0238\tStephen Bay",
+            "2000\tJohn King",
+            "2001\tJon Kleinsmith",
+            "2002\tRobert Klashner",
+            "2003\tDmitry Pavlov"});
             this.AcdLogonId.Location = new System.Drawing.Point(17, 28);
             this.AcdLogonId.Name = "AcdLogonId";
             this.AcdLogonId.Size = new System.Drawing.Size(134, 30);
             this.AcdLogonId.TabIndex = 1;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(17, 137);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(134, 22);
+            this.button5.TabIndex = 0;
+            this.button5.Text = "Send stateCode Web";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.feedRTA_SendOneAgentCustomStateCode);
             // 
             // SendRTA
             // 
@@ -144,6 +164,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.ListBox AcdLogonId;
+        private System.Windows.Forms.ListBox StateCode;
     }
 }
 
