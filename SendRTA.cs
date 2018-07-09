@@ -177,8 +177,71 @@ namespace SendRTA
                 true
             );
         }
-    }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var rta = new RTA.TeleoptiRtaServiceClient();
+            var snapshotBatchId = DateTime.UtcNow;
+
+            //Create the array that will hold all posts in the batch
+            var externalUserStateBatchSnapShot = new RTA.ExternalUserState[1];
+
+            //Create one fake state and add it to the array
+            externalUserStateBatchSnapShot[0] = new RTA.ExternalUserState()
+            {
+                BatchId = snapshotBatchId,
+                IsLoggedOn = true,
+                IsSnapshot = true,
+                SecondsInState = 60,
+                StateCode = "Dummy",
+                StateDescription = "We need one state",
+                Timestamp = DateTime.UtcNow,
+                UserCode = "00000000" //one fake agent
+            };
+
+            //Save the batch
+            returnCode = rta.SaveBatchExternalUserState(
+                    _RTAKey,
+                    _platformTypeId,
+                    _sourceId,
+                    externalUserStateBatchSnapShot);
+
+            //Close the snapshot batch, this will logout everybody _not_ part of the Array externalUserStateBatchSnapShot[]
+            returnCode = rta.SaveExternalUserState(
+                _RTAKey,
+                "",
+                "",
+                "",
+                true,
+                0,
+                snapshotBatchId,
+                _platformTypeId,
+                _sourceId,
+                snapshotBatchId,
+                true
+            );
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string _acdLogonId = AcdLogonId.GetItemText(AcdLogonId.SelectedItem);
+
+            var rta = new RTA.TeleoptiRtaServiceClient();
+            returnCode = rta.SaveExternalUserState(
+                _RTAKey,            //authenticationKey
+                 _acdLogonId,            //userCode, e.i the ACD Login ID          
+                 "WEB",             //stateCode, the RTA state using the identifier for the state
+                 "Working the web chat",          //stateDescription, the RTA state using the friendly name/description
+                 true,              //isLoggedOn
+                 0,                 //secondsInState, not used
+                 DateTime.UtcNow,   //timestamp
+                 _platformTypeId,   //platformTypeId
+                 _sourceId,         //sourceId
+                 DateTime.UtcNow,   //batchId
+                 false              //isSnapshot
+                 );
+        }
+    }
 }
 
 
